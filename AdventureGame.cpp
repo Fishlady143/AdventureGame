@@ -76,7 +76,7 @@ int main() {
 	srand(time(0));
 
 	//welcome the player
-	cout << "Note: Inputs are not case sensitive.";
+	cout << "Note: Inputs are not case sensitive.\n\n";
 	cout << "Welcome player!\nAre you ready to go on an adventure? (Y/N)\n";
 	playerInput = Response();
 
@@ -129,8 +129,8 @@ int main() {
 	
 	while (health > 0) { //While above zero health do the game loop
 		if (room % 5 == 0) { //Checkpoint every five rooms that give you the chance to leave. You choose to continue your attack and block go up and your health is restored.
-			cout << "You enter a new room with nothing but a small fire, rest area, and some food.";
-			playerInput = Response("Do you leave with a fortune of " + to_string(gold) + " gold?\n");
+			cout << "\nYou enter a new room with nothing but a small fire, rest area, and some food.\n";
+			playerInput = Response("Do you leave with a fortune of " + to_string(gold) + " gold? (Y/N) ");
 			while (!CorrectUI(yesNo, playerInput)) //waits for a proper response
 			{
 				playerInput = Response("Please give a proper response!\n");
@@ -182,7 +182,7 @@ int main() {
 						cout << "The " + enemy.name + " blocks for " + to_string(enemyRoll) + " points.\n";
 						if (attack > enemyRoll) {
 							enemy.health -= attack - enemyRoll;
-							cout << "Yes! " + playerName + " hit the " + enemy.name + " for " + to_string(attack - enemyRoll) + " points of damage!Leaving it with " + to_string(enemy.health) + " health left!\n";
+							cout << "Yes! " + playerName + " hit the " + enemy.name + " for " + to_string(attack - enemyRoll) + " points of damage! Leaving it with " + to_string(enemy.health) + " health left!\n";
 						}
 						else { //Attack is blocked
 							cout << "No! " + playerName + "'s attack was blocked!\n";
@@ -215,7 +215,7 @@ int main() {
 						cout << "The " + enemy.name + " attacks for " + to_string(enemyRoll) + " points.\n";
 						if (block < enemyRoll) {
 							health -= enemyRoll - block;
-							cout << "No! The " + enemy.name + " hit the " + enemy.name + " for " + to_string(enemyRoll - block) + " points of damage!Leaving them with " + to_string(health) + " health left!\n";
+							cout << "No! The " + enemy.name + " hit the " + enemy.name + " for " + to_string(enemyRoll - block) + " points of damage! Leaving them with " + to_string(health) + " health left!\n";
 							if (health < 20 && health > 0) {
 								cout << playerName + " heals for 1 point of health.\n";
 								health++;
