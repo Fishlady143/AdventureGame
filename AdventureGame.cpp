@@ -16,6 +16,26 @@ bool CorrectUI(vector<string> goodInputs, string input) { //simplifying if the p
 	return false;
 }
 
+class Enemy { //I may have borrowed this idea from a friend.
+public:
+	string name;
+	string intro;
+	int attack;
+	int block;
+	int aggro;
+	int health;
+	int goldDrop;
+	Enemy(string na, string in, int at, int bl, int ag, int he, int go) {
+		name = na;
+		intro = in;
+		attack = at;
+		block = bl;
+		aggro = ag;
+		health = he;
+		goldDrop = go;
+	}
+};
+
 string LowercaseString(string input) { //Converts the string to lowercase so responses aren't case sensitive
 	string temp = input;
 	for (int i = 0; i < input.size(); i++) {
@@ -37,31 +57,40 @@ string Response(string prompt) { //overload for giving a prompt
 	return Response();
 }
 
-class Enemy { //I may have borrowed this idea from a friend.
-public:
-	string name;
-	string intro;
-	int attack;
-	int block;
-	int aggro;
-	int health;
-	int goldDrop;
-	Enemy(string na, string in, int at, int bl, int ag, int he, int go) {
-		name = na;
-		intro = in;
-		attack = at;
-		block = bl;
-		aggro = ag;
-		health = he;
-		goldDrop = go;
-	}
-};
+void Welcome() {
+	//welcome the player
+	cout << "Note: Inputs are not case sensitive.\n\n";
+	cout << "Welcome player!\nAre you ready to go on an adventure? (Y/N)\n";
+}
 
-int main() {
+void NameResponse(string playerName = "default") {
+	switch (rand() % 5) { //just a unique response everytime a user inputs a name
+	case 0:
+		cout << playerName << "? That's a good name\n";
+		break;
+	case 1:
+		cout << playerName << " suits you well!\n";
+		break;
+	case 2:
+		cout << playerName << "? Very original!\n";
+		break;
+	case 3:
+		cout << playerName << "? Like that musician?\n";
+		break;
+	case 4:
+		cout << playerName << ". Damn, I'm sorry your parents hate you\n";
+		break;
+	default:
+		cout << playerName << "? ew...\n";
+		break;
+	}
+}
+
+void GameLoop() {
 	string playerName; //Using this so players can name their characters!!
 	string playerInput; //Holder for player inputs
-	vector<string> yesNo = {"y", "n"};
-	vector<string> actions = {"a", "attack", "b", "block"};
+	vector<string> yesNo = { "y", "yes", "n", "no"};
+	vector<string> actions = { "a", "attack", "b", "block" };
 
 	Enemy shieldSkeleton("Shield Skeleton", "a skeleton wielding an iron shield", 3, 7, 1, 5, 5);
 	Enemy swordSkeleton("Sword Skeleton", "a skeleton wielding an iron sword", 7, 2, 7, 5, 5);
@@ -70,14 +99,12 @@ int main() {
 	Enemy mimic("Chest Mimic", "a chest that seems to be breathing", 5, 6, 3, 10, 50);
 	Enemy ghoul("Ghoul", "a shambling corpse of another adventurer", 5, 5, 6, 6, 15);
 
-	Enemy enemies[] = {shieldSkeleton, swordSkeleton, golem, bat, mimic, ghoul};
+	Enemy enemies[] = { shieldSkeleton, swordSkeleton, golem, bat, mimic, ghoul };
 
 	//seed the random number generator
 	srand(time(0));
 
-	//welcome the player
-	cout << "Note: Inputs are not case sensitive.\n\n";
-	cout << "Welcome player!\nAre you ready to go on an adventure? (Y/N)\n";
+	Welcome();
 	playerInput = Response();
 
 	while (!CorrectUI(yesNo, playerInput)) //waits for a proper response
@@ -85,30 +112,10 @@ int main() {
 		playerInput = Response("Please give a proper response!\n");
 	}
 
-	if (playerInput == "y") {
+	if (playerInput == "y" || playerInput == "yes") {
 		cout << "That's wonderful! \nDo you mind telling me your name: ";
 		getline(cin, playerName);
-
-		switch (rand() % 5) { //just a unique response everytime a user inputs a name
-			case 0:
-				cout << playerName << "? That's a good name\n";
-				break;
-			case 1:
-				cout << playerName << " suits you well!\n";
-				break;
-			case 2:
-				cout << playerName << "? Very original!\n";
-				break;
-			case 3:
-				cout << playerName << "? Like that musician?\n";
-				break;
-			case 4:
-				cout << playerName << ". Damn, I'm sorry your parents hate you\n";
-				break;
-			default:
-				cout << playerName << "? ew.\n";
-				break;
-		}
+		NameResponse(playerName);
 	}
 	else {
 		cout << playerName + " lives a long boring life and die of dysentery."; //Coward's way out
@@ -120,13 +127,13 @@ int main() {
 	int health = 20;
 	int attack;
 	int maxAttack = 6;
-	int block; 
+	int block;
 	int maxBlock = 6;
 	int turn = 0;
 	int gold = 10;
 	int room = 1;
-	
-	
+
+
 	while (health > 0) { //While above zero health do the game loop
 		if (room % 5 == 0) { //Checkpoint every five rooms that give you the chance to leave. You choose to continue your attack and block go up and your health is restored.
 			cout << "\nYou enter a new room with nothing but a small fire, rest area, and some food.\n";
@@ -135,7 +142,7 @@ int main() {
 			{
 				playerInput = Response("Please give a proper response!\n");
 			}
-			if (playerInput == "y") { //Player chooses to leave, game ends (gold = score)
+			if (playerInput == "y" || playerInput == "yes") { //Player chooses to leave, game ends (gold = score)
 				cout << "Choosing to leave before it's too late " + playerName + " leaves the dungeon with a small fortune of " + to_string(gold) + " gold!\n";
 				cout << "They made it through " + to_string(room) + " rooms!\n";
 				return 0;
@@ -243,4 +250,8 @@ int main() {
 	cout << "They made it through " + to_string(room) + " rooms!";
 	return 0;
 
+}
+
+int main() { //Coming back to this project, I realize I must have been on crack or something. This is some gibberish.
+	GameLoop();
 }
